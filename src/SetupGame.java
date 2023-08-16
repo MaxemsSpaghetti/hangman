@@ -8,19 +8,19 @@ public class SetupGame {
             System.out.println();
             System.out.println("**************************************");
             System.out.println();
-            System.out.println("Write 'start' to start the game");
+            System.out.println("Write '1' to start the game");
             System.out.println();
             System.out.println("**************************************");
             System.out.println();
-            System.out.println("Write 'exit' to exit the game");
+            System.out.println("Write '0' to exit the game");
             System.out.println("**************************************");
             System.out.println();
             Scanner scanner = new Scanner(System.in);
             String input = scanner.nextLine();
-            if(input.equals("exit")) {
+            if(input.equals("0")) {
                 System.exit(0);
             }
-            if (input.equals("start")) {
+            if (input.equals("1")) {
                 GameProcess gameProcess = new GameProcess();
                 gameProcess.gamingProcess();
             }

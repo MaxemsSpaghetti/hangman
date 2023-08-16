@@ -8,20 +8,22 @@ public class GameResult {
     }
 
     public static void lostGame() {
-        System.out.println("\n" + "\n" + "\n" + "\n" + "\n");
+        System.out.println("\n" + "\n" + "\n");
         System.out.println("**************************************");
         System.out.println(            "Unfortunately");
         System.out.println(          "you lost the game");
+        System.out.println(          "Word was " + GameProcess.getWord());
         System.out.println("**************************************");
-        System.out.println("\n" + "\n" + "\n" + "\n" + "\n");
+        System.out.println("\n" + "\n" + "\n");
     }
 
     public static void winGame() {
-        System.out.println("\n" + "\n" + "\n" + "\n" + "\n");
+        System.out.println("\n" + "\n" + "\n");
         System.out.println("**************************************");
         System.out.println(            "Congratulation");
         System.out.println(           "you won the game");
+        System.out.println(          "Word was " + GameProcess.getWord());
         System.out.println("**************************************");
-        System.out.println("\n" + "\n" + "\n" + "\n" + "\n");
+        System.out.println("\n" + "\n" + "\n");
     }
 }

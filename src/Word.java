@@ -1,18 +1,23 @@
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Random;
+import java.util.stream.Stream;
 
 public class Word {
 
-    private final String[] words = new String[] {"компьютер", "устье", "город", "жилище", "цветок", "книга",
-            "ночлег", "глаза", "звучанье", "полчище", "день", "грусть", "ящерица", "столешница", "кустарник",
-            "лесополоса", "мореплаватель", "листва", "ветер", "парковка", "берега", "газопровод", "метро", "бабушка",
-            "муравей", "пламя", "труба", "корабль", "солнце", "песок", "плита", "дверь", "звезда",
-            "радость", "трава", "крыша", "камень", "слово", "глубина", "радуга", "человек", "мечта",
-            "земля", "дерево", "солнце", "дорога", "слово", "слеза", "зерно", "минута",
-             "звонок", "мороз", "космос", "полет", "закат", "факел", "церковь",  "жизнь",
-            "пламя", "живот", "любовь", "крестница", "колокольчик", "кружка", "воздух", "кухня", "полоса",
-            "волна", "крест", "карандаш", "страсть", "подарок", "карандаш", "ветвь", "корень"};
-
     public String getWord() {
-        return words[new Random().nextInt(words.length)];
+        Path path = Paths.get("src/singular.txt");
+        try (Stream<String> linesStream = Files.lines(path)) {
+            long totalLines = linesStream.count();
+            int randomLineIndex = new Random().nextInt((int) totalLines);
+
+            try (Stream<String> linesStream2 = Files.lines(path)) {
+                return linesStream2.skip(randomLineIndex).findFirst().orElse(null);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
