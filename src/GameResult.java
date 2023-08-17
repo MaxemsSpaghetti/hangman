@@ -1,28 +1,28 @@
 public class GameResult {
-    public static void gameResult(int countMistakes, int unsolvedLetters) {
+    public void gameResult(int countMistakes, int unsolvedLetters, String word) {
         if (countMistakes == 6) {
-            lostGame();
+            lostGame(word);
         } else if (unsolvedLetters == 0) {
-            winGame();
+            winGame(word);
         }
     }
 
-    public static void lostGame() {
+    public void lostGame(String word) {
         System.out.println("\n" + "\n" + "\n");
         System.out.println("**************************************");
         System.out.println(            "Unfortunately");
         System.out.println(          "you lost the game");
-        System.out.println(          "Word was " + GameProcess.getWord());
+        System.out.println(          "Word was " + word);
         System.out.println("**************************************");
         System.out.println("\n" + "\n" + "\n");
     }
 
-    public static void winGame() {
+    public void winGame(String word) {
         System.out.println("\n" + "\n" + "\n");
         System.out.println("**************************************");
         System.out.println(            "Congratulation");
         System.out.println(           "you won the game");
-        System.out.println(          "Word was " + GameProcess.getWord());
+        System.out.println(          "Word was " + word);
         System.out.println("**************************************");
         System.out.println("\n" + "\n" + "\n");
     }

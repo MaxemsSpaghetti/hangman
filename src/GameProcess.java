@@ -1,38 +1,41 @@
-import java.io.IOException;
-import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameProcess {
-    private static char[] word;
-    private char[] copyWord;
+    private List<String> word;
+    private List<String> copyWord = new ArrayList<>();
     private int countMistakes;
     private StringBuilder mistakes = new StringBuilder();
     private int unsolvedLetters;
 
     public void gamingProcess() {
         gameInitialising();
-        while (countMistakes < 6 && unsolvedLetters > 0) {
+        while (!isGameOver()) {
             writeInConsole();
         }
-        GameResult.gameResult(countMistakes, unsolvedLetters);
+        new GameResult().gameResult(countMistakes, unsolvedLetters, String.join("", word));
     }
 
     public void gameInitialising() {
-        String word1;
-            word1 = new Word().getWord();
-        word = word1.toCharArray();
-        copyWord = new char[word.length];
-        unsolvedLetters = word.length;
-        for (int i = 0; i < word.length; i++) {
-            copyWord[i] = '_';
+        Dictionary dictionary = new Dictionary();
+        dictionary.createFilteredDictionary();
+        word = dictionary.createRandomWord();
+        unsolvedLetters = word.size();
+        for (int i = 0; i < word.size(); i++) {
+            copyWord.add("_");
         }
+    }
+
+    public boolean isGameOver() {
+        return countMistakes == 6 || unsolvedLetters == 0;
     }
 
     public void changeState(String letter) {
         int tmp = unsolvedLetters;
 
-        for (int i = 0; i < word.length; i++) {
-            if (word[i] == letter.charAt(0)) {
-                copyWord[i] = letter.charAt(0);
+        for (int i = 0; i < word.size(); i++) {
+            if (word.get(i).equals(letter)) {
+                copyWord.set(i, letter);
                 unsolvedLetters--;
             }
         }
@@ -46,34 +49,26 @@ public class GameProcess {
         }
     }
 
-    public String inputLetter() {
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextLine();
-    }
-
     public void writeInConsole() {
-        System.out.println();
-        for (char c : copyWord) {
+        for (String c : copyWord) {
             System.out.print(c + " ");
         }
         System.out.println();
         System.out.println("Write a letter: ");
-        String letter = inputLetter();
-        if (mistakes.indexOf(letter) == -1 && letter.matches("[а-яА-Я]+")) {
-            changeState(letter);
-        } else {
+        String letter = Hangman.getScanner();
+        if (copyWord.stream().anyMatch(c -> c.equals(letter)) || mistakes.indexOf(letter) != -1) {
             System.out.println();
-            System.out.println("the entered character must be a letter of the Russian alphabet," +
-                    " which has not been used before");
+            System.out.println("The entered letter has already been used");
+            System.out.println();
+        } else if (letter.matches("[^а-яА-Я]") || letter.length() != 1) {
+            System.out.println();
+            System.out.println("The entered character must be one letter of the Russian alphabet");
+            System.out.println();
+        } else {
+            changeState(letter);
         }
-        System.out.println();
         System.out.println("mistakes (" + countMistakes + "): " + mistakes.toString());
-        System.out.println();
         HangmanVisualization.drawHangman(countMistakes);
-        System.out.println();
-    }
-
-    public static String getWord() {
-        return new String(word);
     }
 }
+
